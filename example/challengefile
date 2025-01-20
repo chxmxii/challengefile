@@ -1,0 +1,48 @@
+library:
+  Main:
+    target: kubernetes
+    kubeconfig: "/path/to/kubeconf"
+
+  Metadata:
+    namespace: pwn
+    author: chxmxii
+    name: library
+    category: pwn
+
+  Deployment:
+    name: library
+    image: chxmxii/library
+    replicas: 2 #ignore when hpa is true.
+    hpa: true
+    healthCheck: true #livenessProbe on /healthz
+
+  Service:
+    name: library-svc
+    port: 30330
+    dnsEndpoint: library.ctf.xyz
+    protocol: TCP
+
+
+
+numbers:
+  Main:
+    target: kubernetes
+    kubeconfig: "/path/to/kubeconf"
+
+  Metadata:
+    author: chxmxii
+    name: numbers
+    category: misc
+
+  Deployment:
+    name: library
+    image: chxmxii/numbers
+    replicas: 2 #ignore when hpa is true.
+    hpa: true
+    healthCheck: true #livenessProbe on /healthz
+
+  Service:
+    name: numbers-svc
+    port: 30440
+    dnsEndpoint: numbers.ctf.xyz
+    protocol: TCP
