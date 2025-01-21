@@ -5,11 +5,10 @@ type Challenge struct {
 	Metadata   *Metadata   `yaml:"Metadata" json:"metadata"`
 	Deployment *Deployment `yaml:"Deployment" json:"deployment"`
 	Service    *Service    `yaml:"Service" json:"service"`
-	KubeConfig string      `yaml:"kubeConfig,omitempty" json:"kubeConfig,omitempty"`
 }
 
 type Metadata struct {
-	NameSpace string `yaml:"namespace" json:"namespace"`
+	Namespace string `yaml:"namespace" json:"namespace"`
 	Author    string `yaml:"author" json:"author"`
 	Category  string `yaml:"category" json:"category"`
 }
