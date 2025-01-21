@@ -12,6 +12,8 @@ func init() {
 
 	deployCmd.Flags().StringP("challenge", "c", "", "Challenge name")
 	deployCmd.Flags().StringP("file", "f", "challengefile", "Path to the challenge configuration file")
+	deployCmd.Flags().StringP("kubeconfig", "k", "", "Path to the kubeconfig file")
+
 }
 
 var deployCmd = &cobra.Command{
@@ -24,12 +26,18 @@ func deployHandler(cmd *cobra.Command, args []string) error {
 
 	configFile, _ := cmd.Flags().GetString("file")
 	challengeName, _ := cmd.Flags().GetString("challenge")
+	kubecfg, _ := cmd.Flags().GetString("kubeconfig")
 
 	yamlCfg := yaml.NewYamlConfig(
 		yaml.YamlConfigLoader{ConfigFilePath: configFile},
 	)
 
-	deployer := k8s.NewFakeDeployer()
+	clientset, err := k8s.NewClient(kubecfg)
+	if err != nil {
+		return err
+	}
+
+	deployer := k8s.NewDeployer(clientset)
 
 	challenge := services.NewChallengeManager(func(s *services.ChallengeManager) {
 		s.ConfigManager = yamlCfg
@@ -44,7 +52,7 @@ func deployHandler(cmd *cobra.Command, args []string) error {
 		return nil
 	}
 
-	err := challenge.DeployChallenge(challengeName)
+	err = challenge.DeployChallenge(challengeName)
 	if err != nil {
 		return err
 	}

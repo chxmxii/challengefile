@@ -12,4 +12,5 @@ type ConfigManager interface {
 type InfrastructureManager interface {
 	DeployChallenge(challenge *domain.Challenge) error  // Deploy a challenge
 	DestroyChallenge(challenge *domain.Challenge) error // Destroy a challenge
+	// UpdateChallenge(challenge *domain.Challenge) error  // Update a challenge
 }
