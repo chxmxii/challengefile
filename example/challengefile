@@ -1,8 +1,4 @@
 library:
-  Main:
-    target: kubernetes
-    kubeconfig: "/path/to/kubeconf"
-
   Metadata:
     namespace: pwn
     author: chxmxii
@@ -15,7 +11,7 @@ library:
     replicas: 2 #ignore when hpa is true.
     hpa: true
     healthCheck: true #livenessProbe on /healthz
-
+  
   Service:
     name: library-svc
     port: 30330
@@ -25,11 +21,8 @@ library:
 
 
 numbers:
-  Main:
-    target: kubernetes
-    kubeconfig: "/path/to/kubeconf"
-
   Metadata:
+    namespace: musc
     author: chxmxii
     name: numbers
     category: misc
