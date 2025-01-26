@@ -13,7 +13,6 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
-// int32Ptr helper function for converting int to *int32
 func int32Ptr(i int) *int32 {
 	v := int32(i)
 	return &v
@@ -48,17 +47,16 @@ func CreateDeployment(client *kubernetes.Clientset, challenge *domain.Challenge)
 									ContainerPort: challenge.Service.Port,
 								},
 							},
-							// TCP Liveness Probe Added Here
 							LivenessProbe: &apiv1.Probe{
 								ProbeHandler: apiv1.ProbeHandler{
 									TCPSocket: &apiv1.TCPSocketAction{
 										Port: intstr.FromInt32(challenge.Service.Port),
 									},
 								},
-								InitialDelaySeconds: 15, // Wait 15s after container starts
-								PeriodSeconds:       10, // Check every 10s
-								TimeoutSeconds:      5,  // Timeout after 5s
-								FailureThreshold:    3,  // 3 consecutive failures = unhealthy
+								InitialDelaySeconds: 15,
+								PeriodSeconds:       10,
+								TimeoutSeconds:      5,
+								FailureThreshold:    3,
 							},
 						},
 					},
