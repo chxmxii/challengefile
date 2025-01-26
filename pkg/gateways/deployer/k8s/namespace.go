@@ -12,13 +12,16 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
-func CreateNameSpace(client *kubernetes.Clientset, challenge *domain.Challenge) error {
+func CreateNameSpace(client *kubernetes.Clientset, challenge *domain.Metadata) error {
 	namespace := &v1.Namespace{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: challenge.Metadata.Namespace,
+			Name: challenge.Namespace,
+			Labels: map[string]string{
+				"category":   challenge.Category,
+				"managed-by": "challengefile",
+			},
 		},
 	}
-
 	_, err := client.CoreV1().Namespaces().Create(context.Background(), namespace, metav1.CreateOptions{})
 	if err != nil {
 		log.Printf("Error creating namespace: %v", err)
@@ -28,8 +31,8 @@ func CreateNameSpace(client *kubernetes.Clientset, challenge *domain.Challenge) 
 	return nil
 }
 
-func DestroyNameSpace(client *kubernetes.Clientset, challenge *domain.Challenge) error {
-	err := client.CoreV1().Namespaces().Delete(context.Background(), challenge.Metadata.Namespace, metav1.DeleteOptions{})
+func DestroyNameSpace(client *kubernetes.Clientset, challenge *domain.Metadata) error {
+	err := client.CoreV1().Namespaces().Delete(context.Background(), challenge.Namespace, metav1.DeleteOptions{})
 	if err != nil {
 		log.Printf("Error deleting namespace: %v", err)
 		return fmt.Errorf("error deleting namespace: %w", err)

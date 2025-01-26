@@ -1,6 +1,6 @@
 library:
   Metadata:
-    namespace: pwn
+    namespace: lib-pwn
     author: chxmxii
     name: library
     category: pwn
@@ -22,7 +22,7 @@ library:
 
 numbers:
   Metadata:
-    namespace: musc
+    namespace: num-misc
     author: chxmxii
     name: numbers
     category: misc
