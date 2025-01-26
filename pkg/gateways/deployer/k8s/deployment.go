@@ -28,13 +28,15 @@ func CreateDeployment(client *kubernetes.Clientset, challenge *domain.Challenge)
 			Replicas: int32Ptr(challenge.Deployment.Replicas),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"app": challenge.Name,
+					"category":   challenge.Metadata.Category,
+					"managed-by": "challengefile",
 				},
 			},
 			Template: apiv1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Labels: map[string]string{
-						"app": challenge.Name,
+						"category":   challenge.Metadata.Category,
+						"managed-by": "challengefile",
 					},
 				},
 				Spec: apiv1.PodSpec{
