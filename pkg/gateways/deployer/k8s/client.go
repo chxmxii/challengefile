@@ -1,23 +1,23 @@
 package k8s
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/chxmxii/challengefile/v2/internal/core/domain"
 	"k8s.io/client-go/kubernetes"
 )
 
-type Deployer struct {
+type KubeManager struct {
 	Client *kubernetes.Clientset
 }
 
-func NewDeployer(client *kubernetes.Clientset) *Deployer {
-	return &Deployer{Client: client}
+// NewKM creates a new KubeManager instance
+func NewKM(client *kubernetes.Clientset) *KubeManager {
+	return &KubeManager{Client: client}
 }
 
-func (d *Deployer) DeployChallenge(challenge *domain.Challenge) error {
-	clientset := d.Client
+func (k *KubeManager) DeployChallenge(challenge *domain.Challenge) error {
+	clientset := k.Client
 	err := CreateNameSpace(clientset, challenge.Metadata)
 	if err != nil {
 		return err
@@ -36,9 +36,15 @@ func (d *Deployer) DeployChallenge(challenge *domain.Challenge) error {
 	return nil
 }
 
-func (d *Deployer) DestroyChallenge(challenge *domain.Challenge) error {
-	jsonDump, _ := json.Marshal(challenge)
-	fmt.Printf("Destroying task %s with config: %s\n", challenge.Name, jsonDump)
+func (k *KubeManager) DestroyChallenge(challenge *domain.Challenge) error {
+	clientset := k.Client
+	err := DestroyNameSpace(clientset, challenge.Metadata)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("Destroyed task %s within namespace %s\n", challenge.Name, challenge.Metadata.Namespace)
+
 	return nil
 }
 

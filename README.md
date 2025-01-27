@@ -1,34 +1,74 @@
-# challengefile
-A simple tool to help you deploy your challenge on kubernetes.
+# Challengefile
 
-# Installation
+**Challengefile** is a lightweight tool to deploy CTF challenges on Kubernetes. 
 
-1. Clone the repository.
-2. Run `make install` in the root of the repository.
+## Installation
 
-## How to use?
-1. Create a `challengefile` in the root of your challenge repository.
-2. Add the following content to the file:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/chxmxii/challengefile.git
+   cd challengefile
+   ```
+2. Install the tool:
+   ```bash
+   make install
+   ```
 
-```yaml
-Metadata:
-  Author: chxmxii
-  name: library
-  Namespace: lib-pwn 
-  category: pwn
+## Usage
 
-Deployment:
-  name: library
-  image: chxmxii/library
-  replicas: 2 #ignore when hpa is true.
-  hpa: true
-  healthCheck: true 
+1. Create a `challengefile` in the root of your challenge repository with the following structure:
+   ```yaml
+   library:
+     
+     Metadata:
+       Author: chxmxii
+       Namespace: lib-pwn
+       category: pwn
+     
+     Deployment:
+       name: library
+       image: chxmxii/library
+       replicas: 2 # ignored when hpa is true
+       hpa: true
+       healthCheck: true
 
-Service:
-  name: library-svc
-  port: 30330
-  endpoint: library.ctf.xyz
-  protocol: TCP
-```
+     Service:
+       name: library-svc
+       port: 30330
+       protocol: TCP
+   ```
+2. Run commands to manage challenges:
+   - **Deploy** a challenge:
+     ```bash
+     challengefile deploy -f <challengefile> -c <challenge_name> -k <path/to/kubeconfig> (optional)
+     ```
+   - **Destroy** a challenge:
+     ```bash
+     challengefile destroy -f <challengefile> -c <challenge_name> -k <path/to/kubeconfig>
+     ```
+   - **Validate** the `challengefile`:
+     ```bash
+     challengefile validate -f <file>
+     ```
+   - View the full command list:
+     ```bash
+     challengefile help
+     ```
 
-3. Run `challengefile -f <file> -c <challenge_name> -k <path/to/kubeconfing> (optional)` in the root of your challenge repository.
+## Features
+
+- **Deploy challenges** to Kubernetes with ease.
+- **Validate configurations** before deployment.
+- **Support for HPA** and health checks.
+- **Service management** with flexible options.
+
+## Roadmap
+
+- [ ] Support for more challenge types.
+- [ ] Integration with CI/CD pipelines.
+- [ ] Support for challenge updates.
+
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).

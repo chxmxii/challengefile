@@ -19,11 +19,11 @@ func init() {
 
 var deployCmd = &cobra.Command{
 	Use:   "deploy",
-	Short: "Deploy a challenge",
-	RunE:  deployHandler,
+	Short: "Deploys challenges",
+	RunE:  deployerHandler,
 }
 
-func deployHandler(cmd *cobra.Command, args []string) error {
+func deployerHandler(cmd *cobra.Command, args []string) error {
 
 	configFile, _ := cmd.Flags().GetString("file")
 	challengeName, _ := cmd.Flags().GetString("challenge")
@@ -38,7 +38,7 @@ func deployHandler(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	deployer := k8s.NewDeployer(clientset)
+	deployer := k8s.NewKM(clientset)
 
 	challenge := services.NewChallengeManager(func(s *services.ChallengeManager) {
 		s.ConfigManager = yamlCfg
