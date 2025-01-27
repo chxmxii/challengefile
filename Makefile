@@ -21,4 +21,4 @@ install-deps:
 #install binary
 .PHONY: install
 install:
-	@sudo go build -o $(BINARY_PATH) -v
+	@go build -o $(BINARY_PATH) -v

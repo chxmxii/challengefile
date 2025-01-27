@@ -6,6 +6,8 @@ import (
 	"os"
 
 	"github.com/chxmxii/challengefile/v2/internal/core/domain"
+	"github.com/chxmxii/challengefile/v2/pkg/gateways/validation"
+
 	"gopkg.in/yaml.v3"
 )
 
@@ -25,10 +27,13 @@ func (y *YamlConfig) Load(challenge string) (*domain.Challenge, error) {
 
 	for _, c := range challenges {
 		if c.Name == challenge {
+			err := validation.Validate(c)
+			if err != nil {
+				return nil, err
+			}
 			return &c, nil
 		}
 	}
-
 	return nil, fmt.Errorf("challenge %s not found", challenge)
 }
 
@@ -56,6 +61,14 @@ func (y *YamlConfig) LoadAll() ([]domain.Challenge, error) {
 	for name, c := range challCfg {
 		c.Name = name
 		challenges = append(challenges, c)
+	}
+
+	//validate
+	for _, c := range challenges {
+		err := validation.Validate(c)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return challenges, nil

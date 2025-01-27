@@ -9,7 +9,6 @@ type Challenge struct {
 
 type Metadata struct {
 	Namespace string `yaml:"namespace" json:"namespace"`
-	Author    string `yaml:"author" json:"author"`
 	Category  string `yaml:"category" json:"category"`
 }
 

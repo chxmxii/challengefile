@@ -4,6 +4,7 @@ import (
 	"github.com/chxmxii/challengefile/v2/internal/core/services"
 	"github.com/chxmxii/challengefile/v2/pkg/gateways/config_manager/yaml"
 	"github.com/chxmxii/challengefile/v2/pkg/gateways/deployer/k8s"
+	_ "github.com/chxmxii/challengefile/v2/pkg/gateways/validation"
 	"github.com/spf13/cobra"
 )
 
