@@ -1,24 +1,34 @@
-#vars
+# Variables
+BINARY_NAME := challengefile
+BINARY_PATH := /usr/bin/$(BINARY_NAME)
+BINARY_TEST_PATH := ./binary/$(BINARY_NAME)
 
-BINARY_NAME=challengefile
-BINARY_PATH=/usr/bin/$(BINARY_NAME)
-BINARY_TEST_PATH=./binary/$(BINARY_NAME)
+.PHONY: all
+all: build test
 
 .PHONY: build
 build:
+	@echo "Building binary at $(BINARY_TEST_PATH)..."
 	@go build -o $(BINARY_TEST_PATH) -v
 
-#test
+# Run tests
 .PHONY: test
 test:
-	@go test -v
+	@echo "Running tests..."
+	@go test ./... -v
 
-#install dependencies
+# Install dependencies
 .PHONY: install-deps
 install-deps:
+	@echo "Tidying up dependencies..."
 	@go mod tidy
 
-#install binary
 .PHONY: install
 install:
+	@echo "Installing binary to $(BINARY_PATH)..."
 	@go build -o $(BINARY_PATH) -v
+
+.PHONY: clean
+clean:
+	@echo "Cleaning..."
+	@rm -rf ./binary/$(BINARY_NAME)

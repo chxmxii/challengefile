@@ -8,8 +8,10 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "challengefile <command> [flags](-hfc)",
-	Short: "Challengefile is a tool to deploy CTF challenges on kubernetes",
+	Use:           "challengefile <command> [flags](-hfc)",
+	Short:         "Challengefile is a tool to deploy CTF challenges on kubernetes",
+	SilenceUsage:  true,
+	SilenceErrors: true,
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()
 	},

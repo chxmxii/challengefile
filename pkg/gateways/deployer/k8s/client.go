@@ -18,7 +18,6 @@ func NewDeployer(client *kubernetes.Clientset) *Deployer {
 
 func (d *Deployer) DeployChallenge(challenge *domain.Challenge) error {
 	clientset := d.Client
-	fmt.Printf("Deploying task %s\n", challenge.Name)
 	err := CreateNameSpace(clientset, challenge.Metadata)
 	if err != nil {
 		return err
@@ -31,6 +30,9 @@ func (d *Deployer) DeployChallenge(challenge *domain.Challenge) error {
 	if err != nil {
 		return err
 	}
+
+	fmt.Printf("Deployed task %s within namespace %s\n", challenge.Name, challenge.Metadata.Namespace)
+
 	return nil
 }
 

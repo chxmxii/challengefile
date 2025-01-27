@@ -2,6 +2,7 @@ package validation
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/chxmxii/challengefile/v2/internal/core/domain"
 )
@@ -16,8 +17,8 @@ func requiredParamErr(param string) error {
 }
 
 func Validate(config domain.Challenge) error {
-	err := blackListed(config.Name)
-	if err != nil {
+
+	if err := blackListed(config.Name); err != nil {
 		return err
 	}
 	if err := validateMetadata(config.Metadata); err != nil {
@@ -43,8 +44,7 @@ func validateMetadata(metadata *domain.Metadata) error {
 }
 
 func validateDeployment(deployment *domain.Deployment) error {
-	err := blackListed(deployment.Name)
-	if err != nil {
+	if err := blackListed(deployment.Name); err != nil {
 		return err
 	}
 	if err := validateImage(deployment.Image); err != nil {
@@ -69,9 +69,9 @@ func validateService(service *domain.Service) error {
 	if err := validateProtocol(service.Protocol); err != nil {
 		return err
 	}
-	if err := validateDNS(service.DnsEndpoint); err != nil {
-		return err
-	}
+	// if err := validateDNS(service.DnsEndpoint); err != nil {
+	// 	return err
+	// }
 	return nil
 }
 
@@ -87,12 +87,15 @@ func validateImage(image string) error {
 }
 
 func blackListed(input string) error {
-	specialCharacters := []string{".", "/", "\\", "+", "@", "`", "§", "#", "-"}
+	specialCharacters := []string{".", "*", "\\", "+", "@", "`", "§", "#", "~", "!", "$", "%", "^", "&", "="}
 	if input == "" {
 		return requiredParamErr(input)
 	}
-	if contains(specialCharacters, input) {
-		return fmt.Errorf("'%s' contains invalid characters. The following characters are not allowed: %v", input, specialCharacters)
+
+	for _, c := range specialCharacters {
+		if strings.Contains(input, c) {
+			return fmt.Errorf("'%s' contains invalid characters. The following characters are not allowed: %v", input, specialCharacters)
+		}
 	}
 	return nil
 }
@@ -141,25 +144,18 @@ func validateProtocol(protocol domain.Protocol) error {
 	if protocol == "" {
 		return requiredParamErr("protocol")
 	}
-	if !contains(validProtocols, string(protocol)) {
-		return fmt.Errorf("invalid protocol: %s. Only TCP/UDP is supported now: %v", protocol, validProtocols)
+
+	if protocol != "TCP" && protocol != "UDP" {
+		return fmt.Errorf("invalid protocol: %s. Please choose a protocol between %v", protocol, validProtocols)
 	}
+
 	return nil
 }
 
 // Validate DNS endpoint param
-func validateDNS(dns string) error {
-	if dns == "" {
-		return requiredParamErr("dnsEndpoint")
-	}
-	return nil
-}
-
-func contains(list []string, element string) bool {
-	for _, v := range list {
-		if v == element {
-			return true
-		}
-	}
-	return false
-}
+// func validateDNS(dns string) error {
+// if dns == "" {
+// return requiredParamErr("dnsEndpoint")
+// }
+// return nil
+// }

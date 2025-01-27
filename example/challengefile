@@ -1,21 +1,20 @@
 library:
   Metadata:
-    namespace: lib-pwn
+    namespace: lib-pwn 
     author: chxmxii
     name: library
     category: pwn
 
   Deployment:
     name: library
-    image: chxmxii/library
+    image: x/x 
     replicas: 2 #ignore when hpa is true.
     hpa: true
     healthCheck: true #livenessProbe on /healthz
   
   Service:
     name: library-svc
-    port: 30330
-    dnsEndpoint: library.ctf.xyz
+    port: 33030
     protocol: TCP
 
 
@@ -37,5 +36,4 @@ numbers:
   Service:
     name: numbers-svc
     port: 30440
-    dnsEndpoint: numbers.ctf.xyz
     protocol: TCP
