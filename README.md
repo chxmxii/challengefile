@@ -16,10 +16,10 @@
 
 ## Usage
 
-1. Create a `challengefile` in the root of your challenge repository with the following structure:
+1. Create a `challengefile` for your challenge like the example below:
    ```yaml
    library:
-     
+
      Metadata:
        Author: chxmxii
        Namespace: lib-pwn
@@ -38,9 +38,10 @@
        protocol: TCP
    ```
 2. Run commands to manage challenges:
+
    - **Deploy** a challenge:
      ```bash
-     challengefile deploy -f <challengefile> -c <challenge_name> -k <path/to/kubeconfig> (optional)
+     challengefile deploy -f <challengefile> -c <challenge_name> -k <path/to/kubeconfig> 
      ```
    - **Destroy** a challenge:
      ```bash
@@ -54,7 +55,7 @@
      ```bash
      challengefile help
      ```
-
+- **Note**: The `challengefile` and `kubeconfig` are optional arguments. If not provided, the tool will look for the `./challengefile` in the current directory and use the default kubeconfig.
 ## Features
 
 - **Deploy challenges** to Kubernetes with ease.
