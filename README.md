@@ -1,6 +1,7 @@
-# Challengefile
+# Challengefile (WIP)
 
-**Challengefile** is a lightweight tool to deploy CTF challenges on Kubernetes. 
+**Challengefile** is a tool to deploy tcp-based challengs on Kubernetes.
+
 
 ## Installation
 
@@ -63,12 +64,9 @@
 - **Support for HPA** and health checks.
 - **Service management** with flexible options.
 
-## Roadmap
+## Next..
 
-- [ ] Support for more challenge types.
-- [ ] Integration with CI/CD pipelines.
-- [ ] Support for challenge updates.
-
+- [ ] Support for more http-based challenge types.
 
 ## License
 
