@@ -56,7 +56,7 @@
      ```bash
      challengefile help
      ```
-- **Note**: The `challengefile` and `kubeconfig` are optional arguments. If not provided, the tool will look for the `./challengefile` in the current directory and use the default kubeconfig.
+- **Note**: The `challengefile` and `kubeconfig` are optional arguments. If not provided, the tool will look for the `challengefile` file in the current directory and use the default kubeconfig under $HOME/.kube/config.
 ## Features
 
 - **Deploy challenges** to Kubernetes with ease.
@@ -64,10 +64,6 @@
 - **Support for HPA** and health checks.
 - **Service management** with flexible options.
 
-## Next..
+## TODO
 
 - [ ] Support for more http-based challenge types.
-
-## License
-
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
